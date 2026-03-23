@@ -1,10 +1,12 @@
 #ifndef MODIFIED_VECTOR_HPP
 #define MODIFIED_VECTOR_HPP
 
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <vector>
 
+namespace MyMath {
 template<typename T> class Vector : public std::vector<T> {
 public:
     using std::vector<T>::vector;
@@ -35,7 +37,7 @@ public:
 };
 
 template<typename T> inline Vector<T> operator*(T coeff, const Vector<T>& v) {
-    Vector new_vector(v.size());
+    Vector<T> new_vector(v.size());
     for (size_t i = 0; i < v.size(); i++)
         new_vector[i] = v[i] * coeff;
     return new_vector;
@@ -52,4 +54,11 @@ template<typename T> inline std::ostream& operator<<(std::ostream& os, const Vec
     return os;
 }
 
+template<typename T> inline T norm(const Vector<T>& v, size_t n) {
+    T res = 0;
+    for (const auto& val : v)
+        res += std::pow(val, n);
+    return std::pow(res, 1.0 / static_cast<double>(n));
+}
+} // namespace MyMath
 #endif
